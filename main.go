@@ -35,13 +35,17 @@ func main() {
 		user.ID = uint(userID)
 		res := db.First(&user)
 		if res.Error != nil || !user.CheckToken(token) {
-			c.JSON(403, gin.H{
+			c.JSON(401, gin.H{
 				"message": "wrong token",
 			})
 			c.Abort()
 		}
 	})
-
+	r.GET("/", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"hello": "world",
+		})
+	})
 	r.POST("/signin", func(c *gin.Context) {
 		var user User
 		if err := c.ShouldBindJSON(&user); err != nil {

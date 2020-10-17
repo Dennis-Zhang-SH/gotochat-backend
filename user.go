@@ -30,7 +30,7 @@ type UserAccount struct {
 // CheckPassword user infos
 func (user *User) CheckPassword() bool {
 	tmpPassword := user.Password
-	res := db.Where("username = ? OR email = ?", user.Username, user.Email).First(user)
+	res := db.Where("username = ? OR email = ?", user.Username, user.Username).First(user)
 	if res.RowsAffected > 0 {
 		if password, err := decrypt(user.Password, encryptKey); err == nil {
 			return password == tmpPassword
